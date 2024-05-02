@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from werkzeug.exceptions import BadRequest, NotFound
 app = Flask(__name__)
 
@@ -40,6 +40,21 @@ def selecionar(id_pessoa):
         raise NotFound
     return jsonify(pessoas[id_pessoa])
 
+@app.route('/pessoa/todas', methods = ["GET"])
+def todas_pessoas():
+    if not pessoas:
+        mensagem = "Não há ninguém aqui!"
+        response = make_response(jsonify(mensagem), 400)
+    else:
+        response = make_response(jsonify(pessoas), 200)
+    
+    response.headers['seila'] = 'teste'
+    return response
+
+
+
+
+
 @app.route("/pessoa/<int:id_pessoa>", methods = ["DELETE"])
 def deletar(id_pessoa):
     if id_pessoa in pessoas:
@@ -47,4 +62,4 @@ def deletar(id_pessoa):
     return pessoas
 
 if __name__ == "__main__":
-    app.run(host = "localhost", port = 5002)
+    app.run(host = "localhost", port = 5002, debug=True)
