@@ -51,10 +51,6 @@ def todas_pessoas():
     response.headers['seila'] = 'teste'
     return response
 
-
-
-
-
 @app.route("/pessoa/<int:id_pessoa>", methods = ["DELETE"])
 def deletar(id_pessoa):
     if id_pessoa in pessoas:
